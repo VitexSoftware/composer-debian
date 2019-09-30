@@ -1,0 +1,16 @@
+Source: composer-global-update
+Build-Depends: debhelper (>= 7.0.50~),curl,awk,sed
+Standards-Version: 3.8.4
+Maintainer: Vítězslav Dvořák <info@vitexsoftware.cz>
+Uploaders: Vitex <vitex@hippy.cz>
+Priority: optional
+Section: php
+Homepage: https://github.com/Vitexus/composer-global-update
+
+Package: composer-global-update
+Depends: composer
+Architecture: all
+Section: php
+Priority: optional
+Description: PHP Dependency Updater.
+ Update all dependencies of PHP projects in system

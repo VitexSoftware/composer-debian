@@ -1,0 +1,7 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Composer Global config
+Source: https://github.com/VitexSoftware/composer-global-update
+
+Files: *
+Copyright: 2019, Vitex
+License: MIT

@@ -1,0 +1,4 @@
+composer.phar
+*.deb
+debian/usr
+debian/DEBIAN/control

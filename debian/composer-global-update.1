@@ -1,0 +1,16 @@
+.TH "composer-global-update" "1" "2019-05-20" "1.8.5" "The composer updater script for apps"
+.SH NAME
+composer-global-update - update all dependencies of PHP projects in system
+.SH DESCRIPTION
+.B composer-global-update
+search /usr/shar/*/composer.json and /var/lib/*/composer.json
+call composer update for found PHP projects/apps
+.SH OPTIONS
+Usage:
+   composer-global-update [-h] [libname]
+
+Arguments:
+  libname                        update only dependency with given name
+
+Options:
+  -h, --help                     Display this help message
