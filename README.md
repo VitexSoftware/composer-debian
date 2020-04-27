@@ -1,6 +1,8 @@
 Composer Global Updater
 =======================
 
+![logo](composer-global-update.svg?raw=true)
+
 Update PHP libraries in  /usr/share/* or /usr/lib/*
 
 
