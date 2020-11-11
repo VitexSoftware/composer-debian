@@ -1,6 +1,6 @@
 Source: composer-global-update
-Build-Depends: debhelper (>= 7.0.50~),curl,awk,sed
-Standards-Version: 3.8.4
+Build-Depends: debhelper (>= 7.0.50~),curl,awk,sed,po-debconf
+Standards-Version: 4.3.0
 Maintainer: Vítězslav Dvořák <info@vitexsoftware.cz>
 Uploaders: Vitex <vitex@hippy.cz>
 Priority: optional

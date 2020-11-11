@@ -1,6 +1,9 @@
-composer-global-update (1.0) UNRELEASED; urgency=medium
+composer-global-update (1.1) UNRELEASED; urgency=medium
 
+  [ Vítězslav Dvořák ]
   * new release
 
- -- Vítězslav Dvořák <info@vitexsoftware.cz>  Thu, 11 Jul 2019 08:37:53 +0200
+  [ CyberVitexus ]
+  * Added debian package questions czech localization
 
+ -- CyberVitexus <vitex@exiv.jinonice.czf>  Wed, 11 Nov 2020 02:08:58 +0100

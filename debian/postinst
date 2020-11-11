@@ -3,6 +3,8 @@
 #
 # see: dh_installdeb(1)
 
+#DEBHELPER#
+
 set -e
 
 # summary of how this script can be called:
