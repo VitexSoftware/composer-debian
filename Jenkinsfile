@@ -140,6 +140,7 @@ def addToRepository() {
 }
 
 def installPackage() {
+    sh 'sudo apt-get -y install vim-tiny'
     sh 'sudo ex +"%s@DPkg@//DPkg" -cwq /etc/apt/apt.conf.d/70debconf'
     sh 'sudo dpkg-reconfigure debconf -f noninteractive -p critical'
     sh 'cd $WORKSPACE/dist/debian/ ; dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz; cd $WORKSPACE'
