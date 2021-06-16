@@ -140,7 +140,8 @@ def addToRepository() {
 }
 
 def installPackage() {
-    
+    sh 'sudo ex +"%s@DPkg@//DPkg" -cwq /etc/apt/apt.conf.d/70debconf'
+    sh 'sudo dpkg-reconfigure debconf -f noninteractive -p critical'
     sh 'cd $WORKSPACE/dist/debian/ ; dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz; cd $WORKSPACE'
     sh 'echo "deb [trusted=yes] file:///$WORKSPACE/dist/debian/ ./" | sudo tee /etc/apt/sources.list.d/local.list'
     sh 'sudo apt-get update'
