@@ -140,12 +140,9 @@ def addToRepository() {
 }
 
 def installPackage() {
-    sh 'sudo apt-get -y install vim-tiny'
-    sh 'sudo ex +"%s@DPkg@//DPkg" -cwq /etc/apt/apt.conf.d/70debconf'
-    sh 'sudo dpkg-reconfigure debconf -f noninteractive -p critical'
     sh 'cd $WORKSPACE/dist/debian/ ; dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz; cd $WORKSPACE'
     sh 'echo "deb [trusted=yes] file:///$WORKSPACE/dist/debian/ ./" | sudo tee /etc/apt/sources.list.d/local.list'
     sh 'sudo apt-get update'
     sh 'sudo apt-get install apt-utils'
-    sh 'IFS="\n\b"; for package in  `ls $WORKSPACE/dist/debian/ | grep .deb | awk -F_ \'{print \$1}\'` ; do sudo apt-get -y install $package ; done;'
+    sh 'IFS="\n\b"; for package in  `ls $WORKSPACE/dist/debian/ | grep .deb | awk -F_ \'{print \$1}\'` ; do sudo  DEBIAN_FRONTEND=noninteractive apt-get -y install $package ; done;'
 }
