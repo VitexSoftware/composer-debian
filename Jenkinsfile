@@ -26,7 +26,6 @@ pipeline {
                     archiveArtifacts 'dist/debian/'
                 }
             }
-
         }
 
         stage('debian-testing') {
@@ -85,7 +84,19 @@ pipeline {
                     archiveArtifacts 'dist/debian/'
                 }
             }
-       }
+        }
+
+        stage('Copy Archive') {
+            steps {
+                script {
+                    step ([$class: 'CopyArtifact',
+                        projectName: 'Create_archive',
+                        filter: "**/*.deb",
+                        target: 'torepo']);
+                }
+            }
+        }
+
     }
 }
 
@@ -137,7 +148,7 @@ def addToRepository( String dist ) {
     ansiColor('vga') {
       echo '\033[42m\033[31mBuilded packages ' + packages.join(", ")  + '\033[0m'
     }
-    sh 'IFS="\n\b"; for package in  `ls $WORKSPACE/dist/debian/ | grep .deb | awk -F_ \'{print \$1}\'` ; do freight-add $package apt/' + dist + ' ; done;'
+//    sh 'IFS="\n\b"; for package in  `ls $WORKSPACE/dist/debian/ | grep .deb | awk -F_ \'{print \$1}\'` ; do freight-add $package apt/' + dist + ' ; done;'
 }
 
 def installPackage() {
