@@ -22,7 +22,7 @@ pipeline {
 
             post {
                 success {
-		    addToRepository()
+		    addToRepository('buster')
                     archiveArtifacts 'dist/debian/'
                 }
             }
@@ -43,7 +43,7 @@ pipeline {
             }
             post {
                 success {
-		    addToRepository()
+		    addToRepository('bullseye')
                     archiveArtifacts 'dist/debian/'
                 }
             }
@@ -62,7 +62,7 @@ pipeline {
             }
             post {
                 success {
-		    addToRepository()
+		    addToRepository('trusty')
                     archiveArtifacts 'dist/debian/'
                 }
             }
@@ -81,7 +81,7 @@ pipeline {
             }
             post {
                 success {
-		    addToRepository()
+		    addToRepository('hirsute')
                     archiveArtifacts 'dist/debian/'
                 }
             }
@@ -131,13 +131,13 @@ def buildPackage() {
     sh 'mkdir -p $WORKSPACE/dist/debian/ ; rm -rf $WORKSPACE/dist/debian/* ; mv ../' + SOURCE + '*_' + VER + '_*.deb ../' + SOURCE + '*_' + VER + '_*.changes ../' + SOURCE + '*_' + VER + '_*.build $WORKSPACE/dist/debian/'
 }
 
-def addToRepository() {
+def addToRepository( String dist ) {
     def files = readFile "${env.WORKSPACE}/build/debian/package/debian/files"
     def packages = files.readLines().collect { it[0.. it.indexOf(' ')] }
     ansiColor('vga') {
       echo '\033[42m\033[31mBuilded packages ' + packages.join(", ")  + '\033[0m'
     }
-    sh 'IFS="\n\b"; for package in  `ls $WORKSPACE/dist/debian/ | grep .deb | awk -F_ \'{print \$1}\'` ; do freight-add $package apt/' + DIST + ' ; done;'
+    sh 'IFS="\n\b"; for package in  `ls $WORKSPACE/dist/debian/ | grep .deb | awk -F_ \'{print \$1}\'` ; do freight-add $package apt/' + dist + ' ; done;'
 }
 
 def installPackage() {
