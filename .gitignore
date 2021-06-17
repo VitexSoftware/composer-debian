@@ -2,3 +2,10 @@ composer.phar
 *.deb
 debian/usr
 debian/DEBIAN/control
+debian/.debhelper/
+debian/composer-global-update.postrm.debhelper
+debian/composer-global-update.substvars
+debian/composer-global-update/
+debian/debhelper-build-stamp
+debian/files
+

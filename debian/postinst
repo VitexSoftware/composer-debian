@@ -20,7 +20,10 @@ set -e
 # the debian-policy package
 
 # Source debconf library.
+
 . /usr/share/debconf/confmodule
+
+db_version 2.0
 
 reloadwebserver() {
         if [ -f /etc/init.d/nginx ] ; then
@@ -52,16 +55,16 @@ reloadwebserver() {
 case "$1" in
     configure)
 
-    mkdir -p /var/lib/composer/
+    # Update Apps?
+    db_get composer/UPDATE_APPS || true
+    UPDATE_APPS=$RET
 
-    db_input low composer/WEB_USER || true
-    db_go || true
+    db_get composer/WEB_USER || true
+    WEB_USER=$RET
 
-    db_get composer/WEB_USER
-    chown $RET:$RET /var/lib/composer/ -Rv
+    chown $WEB_USER /var/lib/composer/ -Rv
 
-    db_get composer/UPDATE_APPS
-    if [ "$RET" = "true" ]; then
+    if [ "$UPDATE_APPS" = "true" ]; then
 	composer-global-update
         reloadwebserver
     fi

@@ -1,21 +1,17 @@
 #!/bin/sh
 
+#DEBHELPER#
+
 set -e
 
 . /usr/share/debconf/confmodule
-
 db_version 2.0
 
-if [ "$DEBIAN_FRONTEND" != "noninteractive" ]; then
 
-    # Update Apps?
-    db_input medium composer/UPDATE_APPS || true
-    db_go || true
+db_input low composer/UPDATE_APPS || true
+db_input low composer/WEB_USER || true
+db_go || true
 
-    db_input high composer/WEB_USER || true
-    db_go || true
+#    echo composer-global-update composer/UPDATE_APPS boolean true     | debconf-set-selections
+#    echo composer-global-update composer/WEB_USER    string  www-data | debconf-set-selections
 
-else
-    echo composer-global-update composer/UPDATE_APPS boolean true | sudo debconf-set-selections -v
-    echo composer-global-update composer/WEB_USER string www-data | sudo debconf-set-selections -v
-fi

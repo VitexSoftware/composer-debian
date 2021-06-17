@@ -1,5 +1,5 @@
 Source: composer-global-update
-Build-Depends: debhelper (>= 7.0.50~),curl,awk,sed,po-debconf
+Build-Depends: debhelper (>= 11),curl,awk,sed,po-debconf
 Standards-Version: 4.3.0
 Maintainer: Vítězslav Dvořák <info@vitexsoftware.cz>
 Uploaders: Vitex <vitex@hippy.cz>
@@ -8,7 +8,7 @@ Section: php
 Homepage: https://github.com/Vitexus/composer-global-update
 
 Package: composer-global-update
-Depends: composer
+Depends: ${misc:Depends},composer
 Architecture: all
 Section: php
 Priority: optional
