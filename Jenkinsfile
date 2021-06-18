@@ -97,11 +97,11 @@ pipeline {
 
 def copyArtifact(){
     step ([$class: 'CopyArtifact',
-        projectName: env.JOB_BASE_NAME,
+        projectName: '${JOB_NAME}',
         filter: "**/*.deb",
         target: '/var/tmp/deb',
         flatten: true,
-        selector: upstream()
+        selector: specific('${BUILD_NUMBER}')
     ]);
 }
 
