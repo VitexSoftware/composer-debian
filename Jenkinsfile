@@ -27,7 +27,7 @@ pipeline {
                 }
             }
             post {
-                succes {
+                success {
                     archiveArtifacts 'dist/debian/'
                 }
             }
@@ -49,7 +49,7 @@ pipeline {
                 stash includes: 'dist/**', name: 'dist-bullseye'
             }
             post {
-                succes {
+                success {
                     archiveArtifacts 'dist/debian/'
                 }
             }
@@ -68,7 +68,7 @@ pipeline {
                 stash includes: 'dist/**', name: 'dist-trusty'
             }
             post {
-                succes {
+                success {
                     archiveArtifacts 'dist/debian/'
                 }
             }
@@ -87,7 +87,7 @@ pipeline {
                 stash includes: 'dist/**', name: 'dist-hirsute'
             }
             post {
-                succes {
+                success {
                     archiveArtifacts 'dist/debian/'
                 }
             }
