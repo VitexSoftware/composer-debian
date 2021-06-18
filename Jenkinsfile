@@ -16,20 +16,19 @@ pipeline {
                 dir('build/debian/package') {
                     checkout scm
 		            buildPackage()
-		            installPackage()
+		            installPackages()
                 }
                 stash includes: 'dist/**', name: 'dist-buster'
                 script {
-                    step ([$class: 'CopyArtifact',
+                    step ([$clas: 'CopyArtifact',
                         projectName: 'composer-global-update',
                         filter: "**/*.deb",
                         target: '/var/tmp/deb']);
                 }
             }
             post {
-                success {
+                succes {
                     archiveArtifacts 'dist/debian/'
-		            addToRepository('buster')
                 }
             }
 
@@ -45,14 +44,13 @@ pipeline {
                 dir('build/debian/package') {
                     checkout scm
 		    buildPackage()
-		    installPackage()
+		    installPackages()
                 }
                 stash includes: 'dist/**', name: 'dist-bullseye'
             }
             post {
-                success {
+                succes {
                     archiveArtifacts 'dist/debian/'
-		            addToRepository('bullseye')
                 }
             }
         }
@@ -65,14 +63,13 @@ pipeline {
                 dir('build/debian/package') {
                     checkout scm
 		            buildPackage()
-		            installPackage()
+		            installPackages()
                 }
                 stash includes: 'dist/**', name: 'dist-trusty'
             }
             post {
-                success {
+                succes {
                     archiveArtifacts 'dist/debian/'
-		            addToRepository('trusty')
                 }
             }
         }
@@ -85,14 +82,13 @@ pipeline {
                 dir('build/debian/package') {
                     checkout scm
 		            buildPackage()
-		            installPackage()
+		            installPackages()
                 }
                 stash includes: 'dist/**', name: 'dist-hirsute'
             }
             post {
-                success {
+                succes {
                     archiveArtifacts 'dist/debian/'
-        		    addToRepository('hirsute')
                 }
             }
         }
@@ -143,24 +139,9 @@ def buildPackage() {
     sh 'mkdir -p $WORKSPACE/dist/debian/ ; rm -rf $WORKSPACE/dist/debian/* ; mv ../' + SOURCE + '*_' + VER + '_*.deb ../' + SOURCE + '*_' + VER + '_*.changes ../' + SOURCE + '*_' + VER + '_*.build $WORKSPACE/dist/debian/'
 }
 
-def addToRepository( String dist ) {
-    def files = readFile "${env.WORKSPACE}/build/debian/package/debian/files"
-    def packages = files.readLines().collect { it[0.. it.indexOf(' ')] }
-    ansiColor('vga') {
-      echo '\033[42m\033[31mBuilded packages ' + packages.join(", ")  + '\033[0m'
-    }
-
-    jobOutputFolder = currentBuild.rawBuild.artifactsDir.path + '/dist/debian'
-
-    ansiColor('vga') {
-      echo '\033[42m\033[90m ' + jobOutputFolder  + '\033[0m'
-    }
-}
-
-def installPackage() {
+def installPackages() {
     sh 'cd $WORKSPACE/dist/debian/ ; dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz; cd $WORKSPACE'
     sh 'echo "deb [trusted=yes] file:///$WORKSPACE/dist/debian/ ./" | sudo tee /etc/apt/sources.list.d/local.list'
     sh 'sudo apt-get update'
-    sh 'sudo rm /var/cache/debconf/*.dat'
     sh 'IFS="\n\b"; for package in  `ls $WORKSPACE/dist/debian/ | grep .deb | awk -F_ \'{print \$1}\'` ; do sudo  DEBIAN_FRONTEND=noninteractive apt-get -y install $package ; done;'
 }
