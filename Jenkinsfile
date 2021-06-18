@@ -100,7 +100,8 @@ def copyArtifact(){
         projectName: env.JOB_BASE_NAME,
         filter: "**/*.deb",
         target: '/var/tmp/deb',
-        flatten: true
+        flatten: true,
+        selector: upstream()
     ]);
 }
 
