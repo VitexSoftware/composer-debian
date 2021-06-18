@@ -124,7 +124,7 @@ def buildPackage() {
       echo '\033[42m\033[90mBuild debian package ' + SOURCE + ' v' + VERSION  + ' for ' + DISTRO  + '\033[0m'
     }
 
-    def VER = VERSION + '.' + env.BUILD_NUMBER  + '~' + DIST
+    def VER = VERSION + '~' + DIST + '~' + env.BUILD_NUMBER 
 
 //Buster problem: Can't continue: dpkg-parsechangelog is not new enough(needs to be at least 1.17.0)
 //
