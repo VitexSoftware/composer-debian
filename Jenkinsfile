@@ -142,7 +142,7 @@ def addToRepository( String dist ) {
       echo '\033[42m\033[31mBuilded packages ' + packages.join(", ")  + '\033[0m'
     }
 
-    jobOutputFolder = currentBuild.rawBuild.artifactsDir.path
+    jobOutputFolder = currentBuild.rawBuild.artifactsDir.path + '/dist/debian'
 
     ansiColor('vga') {
       echo '\033[42m\033[90m ' + jobOutputFolder  + '\033[0m'
