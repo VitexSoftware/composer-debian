@@ -128,7 +128,7 @@ def buildPackage() {
       echo '\033[42m\033[90mBuild debian package ' + SOURCE + ' v' + VERSION  + ' for ' + DISTRO  + '\033[0m'
     }
 
-    def VER = VERSION + '~' + DIST
+    def VER = VERSION + '.' + env.BUILD_NUMBER  + '~' + DIST
 
 //Buster problem: Can't continue: dpkg-parsechangelog is not new enough(needs to be at least 1.17.0)
 //
@@ -155,8 +155,6 @@ def addToRepository( String dist ) {
     ansiColor('vga') {
       echo '\033[42m\033[90m ' + jobOutputFolder  + '\033[0m'
     }
-
-    sh 'IFS="\n\b"; for package in  `ls ' + jobOutputFolder + ' | grep .deb | awk -F_ \'{print \$1}\'` ; do echo $package  ; done;'
 }
 
 def installPackage() {
