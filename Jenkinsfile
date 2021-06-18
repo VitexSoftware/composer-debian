@@ -20,12 +20,21 @@ pipeline {
                 }
                 stash includes: 'dist/**', name: 'dist-buster'
             }
-
             post {
                 success {
                     archiveArtifacts 'dist/debian/'
 		            addToRepository('buster')
                 }
+            }
+
+
+            
+        }
+
+        stage('buster-repo') {
+            steps {
+                echo 'XXXXXXXXXXXXXXXX'
+                addToRepository('buster')
             }
         }
 
