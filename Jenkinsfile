@@ -24,6 +24,7 @@ pipeline {
                         projectName: 'Create_archive',
                         filter: "**/*.deb",
                         target: 'Infra']);
+                }
             }
             post {
                 success {
