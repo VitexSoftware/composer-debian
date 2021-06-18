@@ -31,10 +31,14 @@ pipeline {
             
         }
 
-        stage('buster-repo') {
+        stage('Copy Archive') {
             steps {
-                echo 'XXXXXXXXXXXXXXXX'
-                addToRepository('buster')
+                script {
+                    step ([$class: 'CopyArtifact',
+                        projectName: 'Create_archive',
+                        filter: "**/deb.zip",
+                        target: 'Infra']);
+                }
             }
         }
 
