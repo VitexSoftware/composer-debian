@@ -24,6 +24,7 @@ pipeline {
             post {
                 success {
                     archiveArtifacts 'dist/debian/'
+                    copyArtifact()
                 }
             }
 
@@ -46,6 +47,7 @@ pipeline {
             post {
                 success {
                     archiveArtifacts 'dist/debian/'
+                    copyArtifact()
                 }
             }
         }
@@ -65,6 +67,7 @@ pipeline {
             post {
                 success {
                     archiveArtifacts 'dist/debian/'
+                    copyArtifact()
                 }
             }
         }
@@ -73,15 +76,20 @@ pipeline {
             agent {
                 docker { image 'vitexsoftware/ubuntu:testing' }
             }
+            steps {
+                dir('build/debian/package') {
+                    checkout scm
+		            buildPackage()
+		            installPackages()
+                }
+                stash includes: 'dist/**', name: 'dist-trusty'
+            }
             post {
                 success {
                     archiveArtifacts 'dist/debian/'
+                    copyArtifact()
                 }
             }
-        }
-
-        stage('Grab Artifacts'){
-            copyArtifact()
         }
 
     }
