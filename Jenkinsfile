@@ -20,7 +20,7 @@ pipeline {
                 }
                 stash includes: 'dist/**', name: 'dist-buster'
                 script {
-                    step ([$clas: 'CopyArtifact',
+                    step ([$class: 'CopyArtifact',
                         projectName: 'composer-global-update',
                         filter: "**/*.deb",
                         target: '/var/tmp/deb']);
