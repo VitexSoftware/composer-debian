@@ -7,6 +7,7 @@ pipeline {
     }
 
     stages {
+
         stage('debian-stable') {
             agent {
                 docker { image 'vitexsoftware/debian:stable' }
@@ -14,15 +15,15 @@ pipeline {
             steps {
                 dir('build/debian/package') {
                     checkout scm
-		    buildPackage()
-		    installPackage()
+		            buildPackage()
+		            installPackage()
                 }
                 stash includes: 'dist/**', name: 'dist-buster'
             }
 
             post {
                 success {
-		    addToRepository('buster')
+		            addToRepository('buster')
                     archiveArtifacts 'dist/debian/'
                 }
             }
@@ -42,11 +43,12 @@ pipeline {
             }
             post {
                 success {
-		    addToRepository('bullseye')
+		            addToRepository('bullseye')
                     archiveArtifacts 'dist/debian/'
                 }
             }
         }
+
         stage('ubuntu-trusty') {
             agent {
                 docker { image 'vitexsoftware/ubuntu:stable' }
@@ -54,18 +56,19 @@ pipeline {
             steps {
                 dir('build/debian/package') {
                     checkout scm
-		    buildPackage()
-		    installPackage()
+		            buildPackage()
+		            installPackage()
                 }
                 stash includes: 'dist/**', name: 'dist-trusty'
             }
             post {
                 success {
-		    addToRepository('trusty')
+		            addToRepository('trusty')
                     archiveArtifacts 'dist/debian/'
                 }
             }
         }
+
         stage('ubuntu-hirsute') {
             agent {
                 docker { image 'vitexsoftware/ubuntu:testing' }
@@ -73,29 +76,19 @@ pipeline {
             steps {
                 dir('build/debian/package') {
                     checkout scm
-		    buildPackage()
-		    installPackage()
+		            buildPackage()
+		            installPackage()
                 }
                 stash includes: 'dist/**', name: 'dist-hirsute'
             }
             post {
                 success {
-		    addToRepository('hirsute')
+        		    addToRepository('hirsute')
                     archiveArtifacts 'dist/debian/'
                 }
             }
         }
 
-        stage('Copy Archive') {
-            steps {
-                script {
-                    step ([$class: 'CopyArtifact',
-                        projectName: 'Create_archive',
-                        filter: "**/*.deb",
-                        target: 'torepo']);
-                }
-            }
-        }
 
     }
 }
@@ -148,7 +141,14 @@ def addToRepository( String dist ) {
     ansiColor('vga') {
       echo '\033[42m\033[31mBuilded packages ' + packages.join(", ")  + '\033[0m'
     }
-//    sh 'IFS="\n\b"; for package in  `ls $WORKSPACE/dist/debian/ | grep .deb | awk -F_ \'{print \$1}\'` ; do freight-add $package apt/' + dist + ' ; done;'
+
+    jobOutputFolder = currentBuild.rawBuild.artifactsDir.path
+
+    ansiColor('vga') {
+      echo '\033[42m\033[90m ' + jobOutputFolder  + '\033[0m'
+    }
+
+    sh 'IFS="\n\b"; for package in  `ls ' + jobOutputFolder + ' | grep .deb | awk -F_ \'{print \$1}\'` ; do echo $package  ; done;'
 }
 
 def installPackage() {
