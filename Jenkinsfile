@@ -23,8 +23,8 @@ pipeline {
 
             post {
                 success {
-		            addToRepository('buster')
                     archiveArtifacts 'dist/debian/'
+		            addToRepository('buster')
                 }
             }
         }
@@ -43,8 +43,8 @@ pipeline {
             }
             post {
                 success {
-		            addToRepository('bullseye')
                     archiveArtifacts 'dist/debian/'
+		            addToRepository('bullseye')
                 }
             }
         }
@@ -63,8 +63,8 @@ pipeline {
             }
             post {
                 success {
-		            addToRepository('trusty')
                     archiveArtifacts 'dist/debian/'
+		            addToRepository('trusty')
                 }
             }
         }
@@ -83,8 +83,8 @@ pipeline {
             }
             post {
                 success {
-        		    addToRepository('hirsute')
                     archiveArtifacts 'dist/debian/'
+        		    addToRepository('hirsute')
                 }
             }
         }
