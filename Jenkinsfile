@@ -19,6 +19,11 @@ pipeline {
 		            installPackage()
                 }
                 stash includes: 'dist/**', name: 'dist-buster'
+                script {
+                    step ([$class: 'CopyArtifact',
+                        projectName: 'Create_archive',
+                        filter: "**/*.deb",
+                        target: 'Infra']);
             }
             post {
                 success {
@@ -29,17 +34,6 @@ pipeline {
 
 
             
-        }
-
-        stage('Copy Archive') {
-            steps {
-                script {
-                    step ([$class: 'CopyArtifact',
-                        projectName: 'Create_archive',
-                        filter: "**/deb.zip",
-                        target: 'Infra']);
-                }
-            }
         }
 
         stage('debian-testing') {
