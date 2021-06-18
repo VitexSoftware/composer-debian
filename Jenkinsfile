@@ -20,14 +20,6 @@ pipeline {
 		            installPackages()
                 }
                 stash includes: 'dist/**', name: 'dist-buster'
-                script {
-                    step ([$class: 'CopyArtifact',
-                        projectName: 'composer-global-update',
-                        filter: "**/*.deb",
-                        target: '/var/tmp/deb',
-                        flatten: true
-                        ]);
-                }
             }
             post {
                 success {
@@ -50,14 +42,6 @@ pipeline {
 		            installPackages()
                 }
                 stash includes: 'dist/**', name: 'dist-bullseye'
-                script {
-                    step ([$class: 'CopyArtifact',
-                        projectName: 'composer-global-update',
-                        filter: "**/*.deb",
-                        target: '/var/tmp/deb',
-                        flatten: true
-                        ]);
-                }
             }
             post {
                 success {
@@ -77,14 +61,6 @@ pipeline {
 		            installPackages()
                 }
                 stash includes: 'dist/**', name: 'dist-trusty'
-                script {
-                    step ([$class: 'CopyArtifact',
-                        projectName: 'composer-global-update',
-                        filter: "**/*.deb",
-                        target: '/var/tmp/deb',
-                        flatten: true
-                        ]);
-                }
             }
             post {
                 success {
@@ -97,22 +73,6 @@ pipeline {
             agent {
                 docker { image 'vitexsoftware/ubuntu:testing' }
             }
-            steps {
-                dir('build/debian/package') {
-                    checkout scm
-		            buildPackage()
-		            installPackages()
-                }
-                stash includes: 'dist/**', name: 'dist-hirsute'
-                script {
-                    step ([$class: 'CopyArtifact',
-                        projectName: 'composer-global-update',
-                        filter: "**/*.deb",
-                        target: '/var/tmp/deb',
-                        flatten: true
-                        ]);
-                }
-            }
             post {
                 success {
                     archiveArtifacts 'dist/debian/'
@@ -120,8 +80,20 @@ pipeline {
             }
         }
 
+        stage('Grab Artifacts'){
+            copyArtifact()
+        }
 
     }
+}
+
+def copyArtifact(){
+    step ([$class: 'CopyArtifact',
+        projectName: env.JOB_BASE_NAME,
+        filter: "**/*.deb",
+        target: '/var/tmp/deb',
+        flatten: true
+    ]);
 }
 
 def buildPackage() {
