@@ -21,9 +21,9 @@ pipeline {
                 stash includes: 'dist/**', name: 'dist-buster'
                 script {
                     step ([$class: 'CopyArtifact',
-                        projectName: 'Create_archive',
+                        projectName: 'composer-global-update',
                         filter: "**/*.deb",
-                        target: 'Infra']);
+                        target: '/var/tmp/deb']);
                 }
             }
             post {
