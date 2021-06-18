@@ -4,6 +4,7 @@ pipeline {
 
     options {
         ansiColor('xterm')
+        copyArtifactPermission('*');
     }
 
     stages {
@@ -23,7 +24,9 @@ pipeline {
                     step ([$class: 'CopyArtifact',
                         projectName: 'composer-global-update',
                         filter: "**/*.deb",
-                        target: '/var/tmp/deb']);
+                        target: '/var/tmp/deb',
+                        flatten: true
+                        ]);
                 }
             }
             post {
@@ -43,10 +46,18 @@ pipeline {
             steps {
                 dir('build/debian/package') {
                     checkout scm
-		    buildPackage()
-		    installPackages()
+		            buildPackage()
+		            installPackages()
                 }
                 stash includes: 'dist/**', name: 'dist-bullseye'
+                script {
+                    step ([$class: 'CopyArtifact',
+                        projectName: 'composer-global-update',
+                        filter: "**/*.deb",
+                        target: '/var/tmp/deb',
+                        flatten: true
+                        ]);
+                }
             }
             post {
                 success {
@@ -66,6 +77,14 @@ pipeline {
 		            installPackages()
                 }
                 stash includes: 'dist/**', name: 'dist-trusty'
+                script {
+                    step ([$class: 'CopyArtifact',
+                        projectName: 'composer-global-update',
+                        filter: "**/*.deb",
+                        target: '/var/tmp/deb',
+                        flatten: true
+                        ]);
+                }
             }
             post {
                 success {
@@ -85,6 +104,14 @@ pipeline {
 		            installPackages()
                 }
                 stash includes: 'dist/**', name: 'dist-hirsute'
+                script {
+                    step ([$class: 'CopyArtifact',
+                        projectName: 'composer-global-update',
+                        filter: "**/*.deb",
+                        target: '/var/tmp/deb',
+                        flatten: true
+                        ]);
+                }
             }
             post {
                 success {
