@@ -62,6 +62,9 @@ case "$1" in
     db_get composer/WEB_USER || true
     WEB_USER=$RET
 
+    id -u $WEB_USER &>/dev/null || useradd $WEB_USER
+    id -g $WEB_USER &>/dev/null || groupadd $WEB_USER
+
     chown $WEB_USER /var/lib/composer/ -Rv
 
     if [ "$UPDATE_APPS" = "true" ]; then
