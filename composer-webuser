@@ -9,5 +9,5 @@ if [ -z "${RET}" ];
 then
     echo www-data;
 else
-    echo $RET
+    echo $RET | awk -F: '{print $1}'
 fi
