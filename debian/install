@@ -1,1 +1,3 @@
 composer-global-update	/usr/bin
+composer-debian		/usr/bin
+composer-webuser	/usr/bin
