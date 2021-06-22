@@ -8,7 +8,7 @@ Section: php
 Homepage: https://github.com/Vitexus/composer-global-update
 
 Package: composer-global-update
-Depends: ${misc:Depends},composer
+Depends: ${misc:Depends},composer,sudo
 Architecture: all
 Section: php
 Priority: optional
