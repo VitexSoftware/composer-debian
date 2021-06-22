@@ -16,7 +16,8 @@ if [ -n "$1" ]; then
 	    chown $WEB_USER /var/lib/composer/ /usr/lib/$APP -Rv
 	else
 	    id -g $WEB_GROUP &>/dev/null || groupadd $WEB_USER
-    	    chown $WEB_USER:$WEB_GROUP /var/lib/composer/ /usr/lib/$APP -Rv
+	    mkdir -p /usr/lib/$APP
+	    chown $WEB_USER:$WEB_GROUP /var/lib/composer/ /usr/lib/$APP -Rv
 	fi
 
 	echo '{}' > /usr/lib/$APP/composer.lock
