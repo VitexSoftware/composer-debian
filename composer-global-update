@@ -8,12 +8,12 @@ WEBUSER=$(echo  $RET | awk -F: '{print $1}')
 UPDATEONLY=$1
 
 case "$1" in
-    "")
+    "configure")
 
 	ls /usr/share/*/composer.json /usr/lib/*/composer.json  | while read project; do
 	    PROJECTDIR=$(dirname $project)
 	    echo Updating optimized `basename $PROJECTDIR`
-	    su - $WEBUSER -s /bin/bash -c 'COMPOSER_HOME="/var/lib/composer" composer -n -o --no-dev update -d $PROJECTDIR
+	    su - $WEBUSER -s /bin/bash -c 'COMPOSER_HOME="/var/lib/composer" composer -n -o --no-dev update -d ${PROJECTDIR}'
 	done
 
 
@@ -29,7 +29,7 @@ case "$1" in
 	egrep -ilr --include=composer.json "$1" /usr/share/*/composer.json /usr/lib/*/composer.json  | while read project; do
 	    PROJECTDIR=$(dirname $project)
 	    echo Updating optimized `basename $PROJECTDIR` requiring $1
-	    su - $WEBUSER -s /bin/bash -c 'COMPOSER_HOME="/var/lib/composer" composer -n -o --no-dev update -d $PROJECTDIR
+	    su - $WEBUSER -s /bin/bash -c 'COMPOSER_HOME="/var/lib/composer" composer -n -o --no-dev update -d $PROJECTDIR'
 	done
 
     ;;
