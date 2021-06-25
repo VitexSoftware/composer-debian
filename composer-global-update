@@ -7,14 +7,20 @@ WEBUSER=$(echo  $RET | awk -F: '{print $1}')
 
 UPDATEONLY=$1
 
+UPDATE_COMMAND="COMPOSER_HOME=/var/lib/composer composer -n -o --no-dev update "
+
+echo Composer Global Update searching for /usr/*/*/composer.json:
+
+
 case "$1" in
     "")
 
-	ls /usr/share/*/composer.json /usr/*/*/composer.json  | while read project; do
+	ls /usr/*/*/composer.json  | while read project; do
 	    PROJECTDIR=$(dirname $project)
 
 	    echo Updating optimized `basename $PROJECTDIR`
-	    su - $WEBUSER -s /bin/bash -c 'COMPOSER_HOME="/var/lib/composer" composer -n -o --no-dev update -d ${PROJECTDIR}'
+echo executing	    su - $WEBUSER -s /bin/bash \"${UPDATE_COMMAND} -d ${PROJECTDIR}\"
+	    su - $WEBUSER -s /bin/bash -c "${UPDATE_COMMAND} -d ${PROJECTDIR}"
 
 	done
 
@@ -30,7 +36,8 @@ case "$1" in
 	egrep -ilr --include=composer.json "$1" /usr/*/*/composer.json | while read project; do
 	    PROJECTDIR=$(dirname $project)
 	    echo Updating optimized `basename ${PROJECTDIR}` requiring $1
-	    su - $WEBUSER -s /bin/bash -c 'COMPOSER_HOME="/var/lib/composer" composer -n -o --no-dev update -d ${PROJECTDIR}'
+	    echo executing   su - $WEBUSER -s /bin/bash \"${UPDATE_COMMAND} -d ${PROJECTDIR}\"
+	    su - $WEBUSER -s /bin/bash -c "${UPDATE_COMMAND} -d ${PROJECTDIR}"
 	done
 
     ;;
