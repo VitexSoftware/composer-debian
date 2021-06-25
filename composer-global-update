@@ -35,8 +35,14 @@ echo executing	    su - $WEBUSER -s /bin/bash \"${UPDATE_COMMAND} -d ${PROJECTDI
     *)
 	egrep -ilr --include=composer.json "$1" /usr/*/*/composer.json | while read project; do
 	    PROJECTDIR=$(dirname $project)
+
+	    mkdir -p /var/lib/${APP}
+	    echo '{}' > /var/lib/$APP/composer.lock
+	    chown $WEB_USER /var/lib/${APP}/composer.lock
+
 	    echo Updating optimized `basename ${PROJECTDIR}` requiring $1
 	    echo executing   su - $WEBUSER -s /bin/bash \"${UPDATE_COMMAND} -d ${PROJECTDIR}\"
+
 	    su - $WEBUSER -s /bin/bash -c "${UPDATE_COMMAND} -d ${PROJECTDIR}"
 	done
 
