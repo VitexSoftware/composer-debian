@@ -2,5 +2,5 @@
 UPDATEONLY=$1
 
 egrep -ilr --include=composer.json "${UPDATEONLY}" /usr/share /var/lib | while read COMPJSON; do
-    composer-dumpautoload ${COMPJSON}
+    composer-autoload ${COMPJSON}
 done
