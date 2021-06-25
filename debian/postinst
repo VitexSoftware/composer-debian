@@ -83,10 +83,9 @@ case "$1" in
     fi
 
     if [ -z $WEB_GROUP ] ; then
-        chown $WEB_USER /var/lib/composer/ -Rv
+        chown $WEB_USER /var/lib/composer/ -R
     else
-	id -g $WEB_GROUP &>/dev/null || groupadd $WEB_USER
-        chown $WEB_USER:$WEB_GROUP /var/lib/composer/ -Rv
+        chown $WEB_USER:$WEB_GROUP /var/lib/composer/ -R
     fi
 
     if [ "$UPDATE_APPS" = "true" ]; then

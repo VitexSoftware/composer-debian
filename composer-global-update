@@ -1,9 +1,8 @@
 #!/bin/sh
 
 # Source debconf library.
-. /usr/share/debconf/confmodule
-db_get composer/WEB_USER
-WEBUSER=$(echo  $RET | awk -F: '{print $1}')
+
+source /usr/lib/composer-debian/webusergroup
 
 UPDATEONLY=$1
 
@@ -15,14 +14,14 @@ echo Composer Global Update searching for /usr/*/*/composer.json:
 case "$1" in
     "")
 
-	ls /usr/*/*/composer.json  | while read project; do
-	    PROJECTDIR=$(dirname $project)
-
-	    echo Updating optimized `basename $PROJECTDIR`
-echo executing	    su - $WEBUSER -s /bin/bash \"${UPDATE_COMMAND} -d ${PROJECTDIR}\"
-	    su - $WEBUSER -s /bin/bash -c "${UPDATE_COMMAND} -d ${PROJECTDIR}"
-
-	done
+#	ls /usr/*/*/composer.json  | while read project; do
+#	    PROJECTDIR=$(dirname $project)
+#
+#	    echo Updating optimized `basename $PROJECTDIR`
+#	    echo  Executing	    su - $WEBUSER -s /bin/bash \"${UPDATE_COMMAND} -d ${PROJECTDIR}\"
+#	    su - $WEBUSER -s /bin/bash -c "${UPDATE_COMMAND} -d ${PROJECTDIR}"
+#
+#	done
 
     ;;
 
@@ -33,17 +32,25 @@ echo executing	    su - $WEBUSER -s /bin/bash \"${UPDATE_COMMAND} -d ${PROJECTDI
     ;;
 
     *)
-	egrep -ilr --include=composer.json "$1" /usr/*/*/composer.json | while read project; do
-	    PROJECTDIR=$(dirname $project)
 
-	    mkdir -p /var/lib/${APP}
-	    echo '{}' > /var/lib/$APP/composer.lock
-	    chown $WEB_USER /var/lib/${APP}/composer.lock
+	egrep -ilr --include=composer.json "$1" /usr/share /var/lib | while read project; do
+	    PROJECT_DIR=$(dirname $project)
+	    VENDOR_DIR=$(cat $project | jq -r '.config."vendor-dir"')
+	    if [ -z ${VENDOR_DIR} ]; then
+		VENDOR_DIR=${PROJECT_DIR}
+	    fi
+
+	    APP       =$(basename ${PROJECT_DIR})
+	    echo ProjectDir: $PROJECT_DIR VendorDir: $VENDOR_DIR 
+
+	    mkdir -p ${VENDOR_DIR}
+	    echo '{}' > ${VENDOR_DIR}/composer.lock
+	    chown $WEB_USER ${VENDOR_DIR}/composer.lock
 
 	    echo Updating optimized `basename ${PROJECTDIR}` requiring $1
-	    echo executing   su - $WEBUSER -s /bin/bash \"${UPDATE_COMMAND} -d ${PROJECTDIR}\"
+	    echo executing   su - $WEBUSER -s /bin/bash \"${UPDATE_COMMAND} -d ${PROJECT_DIR}\"
 
-	    su - $WEBUSER -s /bin/bash -c "${UPDATE_COMMAND} -d ${PROJECTDIR}"
+	    su - ${WEBUSER} -s /bin/bash -c "${UPDATE_COMMAND} -d ${PROJECT_DIR}"
 	done
 
     ;;

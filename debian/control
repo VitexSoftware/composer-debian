@@ -1,16 +1,17 @@
-Source: composer-global-update
+Source: composer-debian
 Build-Depends: debhelper (>= 11),curl,awk,sed,po-debconf
 Standards-Version: 4.3.0
 Maintainer: Vítězslav Dvořák <info@vitexsoftware.cz>
 Uploaders: Vitex <vitex@hippy.cz>
 Priority: optional
 Section: php
-Homepage: https://github.com/Vitexus/composer-global-update
+Homepage: https://github.com/Vitexus/composer-debian
 
-Package: composer-global-update
-Depends: ${misc:Depends},composer,sudo
+Package: composer-debian
+Depends: ${misc:Depends},composer,sudo, jq
+Replaces: composer-global-update
 Architecture: all
 Section: php
 Priority: optional
-Description: PHP Dependency Updater.
+Description: PHP Dependency Updater for debian Apps
  Update all dependencies of PHP projects in system

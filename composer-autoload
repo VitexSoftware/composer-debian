@@ -1,0 +1,40 @@
+#!/bin/sh
+set -e
+
+if [ -n "$1" ]; then
+    COMPJSON=$1
+
+    if [ -z $WEB_USER ]; then
+        . /usr/lib/composer-debian/webusergroup
+    fi
+
+    UPDATE_COMMAND="COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_HOME=/var/lib/composer composer -q --no-ansi -n -o --no-dev update --no-interaction --no-progress --no-scripts "
+
+    PROJECT_DIR=$(dirname ${COMPJSON})
+    VENDOR_DIR=$(cat ${COMPJSON} | jq -r '.config."vendor-dir"')
+    if [ -z ${VENDOR_DIR} ]; then
+	VENDOR_DIR=${PROJECT_DIR}
+    fi
+    APP=$(basename ${PROJECT_DIR})
+#    echo ProjectDir: $PROJECT_DIR VendorDir: $VENDOR_DIR 
+
+    mkdir -p ${VENDOR_DIR}
+    su -s /bin/bash -c  "echo '{}' > ${VENDOR_DIR}/composer.lock"
+    su -s /bin/bash -c  "chown $WEB_USER ${VENDOR_DIR}/composer.lock"
+
+#    echo Updating optimized `basename ${PROJECT_DIR}` requiring $1
+#    echo executing   su - $WEB_USER -s /bin/bash \"${UPDATE_COMMAND} -d ${PROJECT_DIR}\"
+
+    su - ${WEBUSER} -s /bin/bash -c "${UPDATE_COMMAND} -d ${PROJECT_DIR}"
+
+    if [ -z $WEB_GROUP ] ; then
+        su -s /bin/bash -c "chown $WEB_USER ${VENDOR_DIR} -R"
+    else
+        su -s /bin/bash -c "chown ${WEB_USER}:${WEB_GROUP} ${VENDOR_DIR} -R"
+    fi
+
+    ls $VENDOR_DIR/autoload.php
+
+else
+  echo "please call me with path to composer.json "
+fi
