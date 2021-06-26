@@ -21,7 +21,7 @@ if [ -n "$1" ]; then
 
     mkdir -p ${VENDOR_DIR}
     su -s /bin/bash -c  "echo '{}' > ${VENDOR_DIR}/composer.lock"
-    su -s /bin/bash -c  "chown $WEB_USER ${VENDOR_DIR}/composer.lock"
+    su -s /bin/bash -c  "chown ${WEB_USER} ${VENDOR_DIR}/composer.lock"
     su - ${WEB_USER} -s /bin/bash -c "${UPDATE_COMMAND} -d ${PROJECT_DIR}"
 
     if [ -z $WEB_GROUP ] ; then

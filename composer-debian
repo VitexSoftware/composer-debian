@@ -3,20 +3,6 @@ set -e
 
 if [ -n "$1" ]; then
     APP=$1
-    source /usr/lib/composer-debian/webusergroup
-
-	mkdir -p /usr/lib/${APP}
-	echo '{}' > /usr/lib/$APP/composer.lock
-	chown $WEB_USER /usr/lib/${APP}/composer.lock
-	COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_HOME="/var/lib/composer" composer -o install -d /usr/lib/${APP}/ --no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader
-
-	if [ -z $WEB_GROUP ] ; then
-	    chown $WEB_USER /var/lib/composer/ /usr/lib/$APP -R
-	else
-	    id -g $WEB_GROUP &>/dev/null || groupadd $WEB_USER
-	    chown ${WEB_USER}:${WEB_GROUP} /var/lib/composer/ /usr/lib/${APP} -R
-	fi
-
 else
   echo "please call me with app name (it's directory in /usr/lib) "
 fi
