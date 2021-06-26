@@ -3,7 +3,8 @@ Composer Global Updater
 
 ![logo](composer-global-update.svg?raw=true)
 
-Update PHP libraries in /usr/share/* or /usr/lib/* using composer
+ *Prepare Autoloader for PHP Application installed from package 
+ *Update PHP libraries in /usr/share/* or /usr/lib/* using composer
 
 Installation
 ------------
