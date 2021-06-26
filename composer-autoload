@@ -25,6 +25,8 @@ if [ -n "$1" ]; then
 
     ls -la ${VENDOR_DIR}
 
+    echo su - ${WEB_USER} -s /bin/bash -c "${UPDATE_COMMAND} -d ${PROJECT_DIR}"
+
     su - ${WEB_USER} -s /bin/bash -c "${UPDATE_COMMAND} -d ${PROJECT_DIR}"
 
     if [ -z $WEB_GROUP ] ; then
