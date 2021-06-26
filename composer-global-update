@@ -1,6 +1,8 @@
 #!/bin/sh
 UPDATEONLY=$1
 
-egrep -ilr --include=composer.json "${UPDATEONLY}" /usr/share /var/lib | while read COMPJSON; do
+#Search for PHP apps (which use given library) and rebuild its autoloader to use new version
+
+egrep -ils -d skip --include=composer.json "${UPDATEONLY}" /usr/lib/*/* | while read COMPJSON; do
     composer-autoload ${COMPJSON}
 done

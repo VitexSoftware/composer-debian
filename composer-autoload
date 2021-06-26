@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-set -x
+#set -x
 
 if [ -n "$1" ]; then
     COMPJSON=$1
@@ -9,15 +9,15 @@ if [ -n "$1" ]; then
         . /usr/lib/composer-debian/webusergroup
     fi
 
-    UPDATE_COMMAND="COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_HOME=/var/lib/composer composer -q --no-ansi -n -o --no-dev update --no-interaction --no-progress --no-scripts "
-
     PROJECT_DIR=$(dirname ${COMPJSON})
-    VENDOR_DIR=$(cat ${COMPJSON} | jq -r '.config."vendor-dir"')
-    if [ -z ${VENDOR_DIR} ]; then
-	VENDOR_DIR=${PROJECT_DIR}
-    fi
     APP=$(basename ${PROJECT_DIR})
-#    echo ProjectDir: $PROJECT_DIR VendorDir: $VENDOR_DIR 
+
+    VENDOR_DIR="/var/lib/composer/$APP"
+    UPDATE_COMMAND="COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_HOME=/var/lib/composer/ composer -q --no-ansi -n -o --no-dev update --no-interaction --no-progress --no-scripts "
+
+    jq '.config."vendor-dir" = "$VENDOR_DIR"' $COMPJSON | su -s /bin/bash -c  "sponge $COMPJSON"
+
+    echo ProjectDir: $PROJECT_DIR VendorDir: $VENDOR_DIR 
 
     mkdir -p ${VENDOR_DIR}
     su -s /bin/bash -c  "echo '{}' > ${VENDOR_DIR}/composer.lock"
