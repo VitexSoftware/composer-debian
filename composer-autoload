@@ -18,14 +18,10 @@ if [ -n "$1" ]; then
 
     VENDOR_DIR="/var/lib/composer/$APP"
 
-    FIRSTDIR=$(pwd)
     echo ProjectDir: $PROJECT_DIR VendorDir: $VENDOR_DIR
 
 #    composer -q -n -o --no-dev update --no-interaction --no-progress --no-scripts  -d ${PROJECT_DIR}
-    
-    cd ${VENDOR_DIR}
     composer -v -n -o --no-dev update --no-interaction --no-progress --no-scripts  -d ${PROJECT_DIR}
-    cd ${FIRST_DIR}
 
     ls $VENDOR_DIR/autoload.php
 else
