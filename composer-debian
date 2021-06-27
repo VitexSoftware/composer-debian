@@ -13,7 +13,7 @@ if [ -n "$1" ]; then
     COMPJSON=/usr/lib/${APP}/composer.json
     VENDOR_DIR="/var/lib/composer/$APP"
 
-    jq '.config."vendor-dir" = "$VENDOR_DIR"' $COMPJSON | sponge $COMPJSON
+    jq '.config."vendor-dir" = "'${VENDOR_DIR}'"' $COMPJSON | sponge $COMPJSON
 
 
 # TODO:
