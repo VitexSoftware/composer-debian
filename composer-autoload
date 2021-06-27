@@ -2,41 +2,31 @@
 set -e
 #set -x
 
+if [ ${USER} = "root" ]; then
+   echo "You can't be root to do this." 1>&2
+   exit 100
+fi
+
 if [ -n "$1" ]; then
     COMPJSON=$1
-
-    if [ -z $WEB_USER ]; then
-        . /usr/lib/composer-debian/webusergroup
-    fi
+    export COMPOSER_ALLOW_SUPERUSER=1 
+    export COMPOSER_HOME="/var/lib/composer/"
 
     PROJECT_DIR=$(dirname ${COMPJSON})
     APP=$(basename ${PROJECT_DIR})
 
     VENDOR_DIR="/var/lib/composer/$APP"
-    UPDATE_COMMAND="COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_HOME=/var/lib/composer/ composer -q --no-ansi -n -o --no-dev update --no-interaction --no-progress --no-scripts "
 
-    jq '.config."vendor-dir" = "$VENDOR_DIR"' $COMPJSON | su -s /bin/bash -c  "sponge $COMPJSON"
+//  jq '.config."vendor-dir" = "$VENDOR_DIR"' $COMPJSON | sponge $COMPJSON
 
     echo ProjectDir: $PROJECT_DIR VendorDir: $VENDOR_DIR
 
-    mkdir -p ${VENDOR_DIR}
-    su -s /bin/bash -c  "echo '{}' > ${VENDOR_DIR}/composer.lock"
-    su -s /bin/bash -c  "chown ${WEB_USER} ${VENDOR_DIR}/composer.lock"
+    echo "${UPDATE_COMMAND} -d ${PROJECT_DIR}"
 
-    ls -la ${VENDOR_DIR}
-
-    echo su - ${WEB_USER} -s /bin/bash -c "${UPDATE_COMMAND} -d ${PROJECT_DIR}"
-
-    su - ${WEB_USER} -s /bin/bash -c "${UPDATE_COMMAND} -d ${PROJECT_DIR}"
-
-    if [ -z $WEB_GROUP ] ; then
-        su -s /bin/bash -c "chown $WEB_USER ${VENDOR_DIR} -R"
-    else
-        su -s /bin/bash -c "chown ${WEB_USER}:${WEB_GROUP} ${VENDOR_DIR} -R"
-    fi
+#    composer -q --no-ansi -n -o --no-dev update --no-interaction --no-progress --no-scripts  -d ${PROJECT_DIR}
+    composer -v --no-ansi -n -o --no-dev update --no-interaction --no-progress --no-scripts  -d ${PROJECT_DIR}
 
     ls $VENDOR_DIR/autoload.php
-
 else
   echo "please call me with path to composer.json "
 fi

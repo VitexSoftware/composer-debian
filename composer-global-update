@@ -3,7 +3,11 @@ UPDATEONLY=$1
 
 #Search for PHP apps (which use given library) and rebuild its autoloader to use new version
 
+if [ -z $WEB_USER ]; then
+    . /usr/lib/composer-debian/webusergroup
+fi
+
 egrep -ils -d skip --include=composer.json "${UPDATEONLY}" /usr/lib/*/* | while read COMPJSON; do
     echo composer-global-update found:  ${COMPJSON} ${UPDATEONLY}
-    composer-autoload ${COMPJSON}
+    su - ${WEB_USER} -s /bin/bash -c "composer-autoload ${COMPJSON}"
 done

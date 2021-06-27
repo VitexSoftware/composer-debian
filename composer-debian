@@ -1,8 +1,36 @@
 #!/bin/sh
 set -e
 
+#Call me as root from app's postinst
+
 if [ -n "$1" ]; then
     APP=$1
+
+    if [ -z $WEB_USER ]; then
+	. /usr/lib/composer-debian/webusergroup
+    fi
+
+    COMPJSON=/usr/lib/${APP}/composer.json
+    VENDOR_DIR="/var/lib/composer/$APP"
+
+    jq '.config."vendor-dir" = "$VENDOR_DIR"' $COMPJSON | sponge $COMPJSON
+
+
+// TODO:
+// ...
+//"repositories": [
+//  {
+//    "url": "/home/vagrant/code/your-library",
+//    "type": "path",
+//    "options": {
+//          "symlink": true
+//      }
+//  }
+//],
+
+
+    su - ${WEB_USER} -s /bin/bash -c "composer-autoload ${COMPJSON}"
+
 else
   echo "please call me with app name (it's directory in /usr/lib) "
 fi

@@ -88,6 +88,8 @@ case "$1" in
         chown $WEB_USER:$WEB_GROUP /var/lib/composer/ -R
     fi
 
+    chmod ug+rwX /var/lib/composer -R
+
     if [ "$UPDATE_APPS" = "true" ]; then
 	composer-global-update
         reloadwebserver
