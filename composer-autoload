@@ -9,22 +9,23 @@ fi
 
 if [ -n "$1" ]; then
     COMPJSON=$1
-    export COMPOSER_ALLOW_SUPERUSER=1 
+    export COMPOSER_ALLOW_SUPERUSER=1
     export COMPOSER_HOME="/var/lib/composer/"
+    export COMPOSER_NO_INTERACTION=1
 
     PROJECT_DIR=$(dirname ${COMPJSON})
     APP=$(basename ${PROJECT_DIR})
 
     VENDOR_DIR="/var/lib/composer/$APP"
 
-#  jq '.config."vendor-dir" = "$VENDOR_DIR"' $COMPJSON | sponge $COMPJSON
-
+    FIRSTDIR=$(pwd)
     echo ProjectDir: $PROJECT_DIR VendorDir: $VENDOR_DIR
 
-    echo "${UPDATE_COMMAND} -d ${PROJECT_DIR}"
-
-#    composer -q --no-ansi -n -o --no-dev update --no-interaction --no-progress --no-scripts  -d ${PROJECT_DIR}
-    composer -v --no-ansi -n -o --no-dev update --no-interaction --no-progress --no-scripts  -d ${PROJECT_DIR}
+#    composer -q -n -o --no-dev update --no-interaction --no-progress --no-scripts  -d ${PROJECT_DIR}
+    
+    cd ${VENDOR_DIR}
+    composer -v -n -o --no-dev update --no-interaction --no-progress --no-scripts  -d ${PROJECT_DIR}
+    cd ${FIRST_DIR}
 
     ls $VENDOR_DIR/autoload.php
 else
