@@ -28,7 +28,8 @@ if [ -n "$1" ]; then
 #  }
 #],
 
-
+    echo '{}' > /usr/lib/${APP}/composer.lock
+    chown ${WEB_USER}:${WEB_GROUP} /usr/lib/${APP}/composer.lock
     su - ${WEB_USER} -s /bin/bash -c "composer-autoload ${COMPJSON}"
 
 else
