@@ -16,17 +16,17 @@ if [ -n "$1" ]; then
     jq '.config."vendor-dir" = "$VENDOR_DIR"' $COMPJSON | sponge $COMPJSON
 
 
-// TODO:
-// ...
-//"repositories": [
-//  {
-//    "url": "/home/vagrant/code/your-library",
-//    "type": "path",
-//    "options": {
-//          "symlink": true
-//      }
-//  }
-//],
+# TODO:
+# ...
+#"repositories": [
+#  {
+#    "url": "/home/vagrant/code/your-library",
+#    "type": "path",
+#    "options": {
+#          "symlink": true
+#      }
+#  }
+#],
 
 
     su - ${WEB_USER} -s /bin/bash -c "composer-autoload ${COMPJSON}"

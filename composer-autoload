@@ -17,7 +17,7 @@ if [ -n "$1" ]; then
 
     VENDOR_DIR="/var/lib/composer/$APP"
 
-//  jq '.config."vendor-dir" = "$VENDOR_DIR"' $COMPJSON | sponge $COMPJSON
+#  jq '.config."vendor-dir" = "$VENDOR_DIR"' $COMPJSON | sponge $COMPJSON
 
     echo ProjectDir: $PROJECT_DIR VendorDir: $VENDOR_DIR
 
