@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-
+set -x
 #Call me as root from app's postinst
 
 if [ -n "$1" ]; then
@@ -29,9 +29,9 @@ if [ -n "$1" ]; then
 #],
 
     echo '{}' > /usr/lib/${APP}/composer.lock
-    chown ${WEB_USER}:${WEB_GROUP} "/usr/lib/${APP}" /var/lib/composer/${APP} -R
+    chown ${WEB_USER}:${WEB_GROUP} "/usr/lib/${APP}" /var/lib/composer/${APP} -Rv
     su - ${WEB_USER} -s /bin/bash -c "composer-autoload ${COMPJSON}"
-    chown root "/usr/lib/${APP}" -R
+    chown root "/usr/lib/${APP}" -Rv
 else
   echo "please call me with app name (it's directory in /usr/lib) "
 fi
