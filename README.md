@@ -10,12 +10,12 @@ Installation
 ------------
 
 ```shell
-sudo apt install lsb-release wget
-echo "deb http://repo.vitexsoftware.cz $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/vitexsoftware.list
-sudo wget -O /etc/apt/trusted.gpg.d/vitexsoftware.gpg http://repo.vitexsoftware.cz/keyring.gpg
+sudo apt install lsb-release wget apt-transport-https bzip2
+
+sudo wget -O /usr/share/keyrings/vitexsoftware.gpg https://repo.vitexsoftware.cz/keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/vitexsoftware.gpg]  https://repo.vitexsoftware.cz  $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/vitexsoftware.list
 sudo apt update
-sudo apt install composer-global-update
-        
+sudo apt install composer-debian
 ```
 
 Usage
@@ -39,18 +39,17 @@ How to make compatible packages
 Libraries
 ---------
 
-    1. use **deb** as vendorname for your library
-    2. Put composer.json into /usr/share/php///LibraryDir///
-    3. into library package's postinst put **composer-global-update deb/libname
+   1. use **deb** as vendorname for your library
+   2. Put composer.json into /usr/share/php/ LibraryDir /
+   3. into library package's postinst put **composer-global-update deb/libname
 
 
 Applications
 ------------
 
-    1. Put composer.json into /usr/lib///AppName///
-    2. into application package's postinst put **composer-debian AppName**
-    3. use /var/lib/composer/AppName/autoloader.php
-
+   1. Put composer.json into /usr/lib/ AppName /
+   2. into application package's postinst put **composer-debian AppName**
+   3. use /var/lib/composer/ AppName /autoloader.php
 
 
 Example of composer.json:
