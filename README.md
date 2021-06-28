@@ -48,8 +48,8 @@ Applications
 ------------
 
     1. Put composer.json into /usr/lib///AppName///
-    2. into application package's postinst put **composer-autoload /usr/lib/AppName/composer.json**
-    3. use /var/lib/AppName/autoloader.php
+    2. into application package's postinst put **composer-debian AppName**
+    3. use /var/lib/composer/AppName/autoloader.php
 
 
 
