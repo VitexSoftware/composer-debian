@@ -1,4 +1,4 @@
-composer-debian (1.3) UNRELEASED; urgency=medium
+composer-debian (1.4) UNRELEASED; urgency=medium
 
   [ Vítězslav Dvořák ]
   * new release
@@ -7,5 +7,6 @@ composer-debian (1.3) UNRELEASED; urgency=medium
   * Added debian package questions czech localization
   * update dependencies under web user
   * bettet support for noninteractive mode
+  * composer-debian use in composer-global-update
 
- -- CyberVitexus <vitex@exiv.jinonice.czf>  Sat, 15 May 2021 12:33:54 +0200
+ -- CyberVitexus <vitex@exiv.jinonice.czf>  Tue, 29 Jun 2021 16:43:54 +0200
