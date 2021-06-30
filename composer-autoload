@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-set -x
+#set -x
 
 if [ ${USER} = "root" ]; then
    echo "You can't be root to do this." 1>&2
