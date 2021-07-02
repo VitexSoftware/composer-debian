@@ -10,6 +10,7 @@ db_version 2.0
 
 db_input low composer/UPDATE_APPS || true
 db_input low composer/WEB_USER || true
+db_input low composer/WEB_GROUP || true
 db_go || true
 
 #    echo composer-global-update composer/UPDATE_APPS boolean true     | debconf-set-selections

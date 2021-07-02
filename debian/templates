@@ -6,6 +6,13 @@ _Description: Update applications with new composer
 
 Template: composer/WEB_USER
 Type: string
-Default: www-data:www-data
+Default: www-data
 _Description: Chown system-wide composer files 
  Chown all in /var/lib/composer/ to given user:group
+
+Template: composer/WEB_GROUP
+Type: string
+Default: www-data
+_Description: Chgrp system-wide composer files 
+ Chown all in /var/lib/composer/ to given user:group
+

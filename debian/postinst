@@ -61,7 +61,9 @@ case "$1" in
 
 	db_get composer/WEB_USER || true
 	WEB_USER=$(echo $RET | awk -F: '{print $1}')
-	WEB_GROUP=$(echo $RET | awk -F: '{print $2}')
+
+	db_get composer/WEB_GROUP || true
+	WEB_GROUP=$RET
 	if [ -z ${WEB_GROUP} ]; then
 	    WEB_GROUP=${WEB_USER}
 	fi
