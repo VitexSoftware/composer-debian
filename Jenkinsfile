@@ -28,7 +28,7 @@ pipeline {
                 }
 
                 stages {
-                    stage("Build for ${DISTRO}") {
+                    stage('Build for ' + $DISTRO) {
                         agent {
                             docker { image "vitexsoftware/${DISTRO}" }
                         }
