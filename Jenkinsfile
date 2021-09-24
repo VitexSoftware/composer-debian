@@ -27,28 +27,29 @@ pipeline {
                     }
                 }
 
-                stage("${DISTRO}") {
-                    agent {
-                        docker { image "vitexsoftware/${DISTRO}" }
-                    }
-                    steps {
-                        dir('build/debian/package') {
-                            checkout scm
-                            buildPackage()
-                            installPackages()
+                stages {
+                    stage("${DISTRO}") {
+                        agent {
+                            docker { image "vitexsoftware/${DISTRO}" }
                         }
-                        stash includes: 'dist/**', name: "${DISTRO}"
-                    }
-                    post {
-                        success {
-                            archiveArtifacts 'dist/debian/'
-                            copyArtifact()
+                        steps {
+                            dir('build/debian/package') {
+                                checkout scm
+                                buildPackage()
+                                installPackages()
+                            }
+                            stash includes: 'dist/**', name: "${DISTRO}"
+                        }
+                        post {
+                            success {
+                                archiveArtifacts 'dist/debian/'
+                                copyArtifact()
+                            }
                         }
                     }
                 }
             }
         }
-
     }
 }
 
