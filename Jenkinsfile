@@ -18,31 +18,32 @@ pipeline {
     }
 
     stages {
-
-        matrix  {
-            axes {
-                axis {
-                    name 'DISTRO'
-                    values 'debian:stretch', 'debian:buster', 'debian:bullseye', 'debian:bookworm', 'ubuntu:focal', 'ubuntu:hirsute'
-                }
-            }
-
-            stage("${DISTRO}") {
-                agent {
-                    docker { image "vitexsoftware/${DISTRO}" }
-                }
-                steps {
-                    dir('build/debian/package') {
-                        checkout scm
-                        buildPackage()
-                        installPackages()
+        stage('BuildAndInstall') {
+            matrix  {
+                axes {
+                    axis {
+                        name 'DISTRO'
+                        values 'debian:stretch', 'debian:buster', 'debian:bullseye', 'debian:bookworm', 'ubuntu:focal', 'ubuntu:hirsute'
                     }
-                    stash includes: 'dist/**', name: "${DISTRO}"
                 }
-                post {
-                    success {
-                        archiveArtifacts 'dist/debian/'
-                        copyArtifact()
+
+                stage("${DISTRO}") {
+                    agent {
+                        docker { image "vitexsoftware/${DISTRO}" }
+                    }
+                    steps {
+                        dir('build/debian/package') {
+                            checkout scm
+                            buildPackage()
+                            installPackages()
+                        }
+                        stash includes: 'dist/**', name: "${DISTRO}"
+                    }
+                    post {
+                        success {
+                            archiveArtifacts 'dist/debian/'
+                            copyArtifact()
+                        }
                     }
                 }
             }
