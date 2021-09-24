@@ -3,9 +3,8 @@ composer.phar
 debian/usr
 debian/DEBIAN/control
 debian/.debhelper/
-debian/composer-global-update.postrm.debhelper
-debian/composer-global-update.substvars
-debian/composer-global-update/
+debian/composer-debian.postrm.debhelper
+debian/composer-debian.substvars
+debian/composer-debian/
 debian/debhelper-build-stamp
 debian/files
-

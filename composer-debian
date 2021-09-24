@@ -15,7 +15,7 @@ if [ -n "$1" ]; then
 
     jq '.config."vendor-dir" = "'${VENDOR_DIR}'"' $COMPJSON | sponge $COMPJSON
 
-# TODO:
+# TODO: cat /usr/lib/system.spoje.net/composer.json | grep url | awk -F '"' '{print $4}'
 # ...
 #"repositories": [
 #  {
