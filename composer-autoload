@@ -20,8 +20,8 @@ if [ -n "$1" ]; then
 
     echo ProjectDir: $PROJECT_DIR VendorDir: $VENDOR_DIR
 
-#    composer -q -n -o -a  --no-dev update --no-interaction --no-progress --no-scripts  -d ${PROJECT_DIR}
-    composer update --no-interaction --no-scripts  -d ${PROJECT_DIR}
+    composer -q -n -o -a  --no-dev update --no-interaction --no-progress --no-scripts  -d ${PROJECT_DIR}
+#    composer update --no-interaction --no-scripts  -d ${PROJECT_DIR}
 
     ls $VENDOR_DIR/autoload.php
 else
