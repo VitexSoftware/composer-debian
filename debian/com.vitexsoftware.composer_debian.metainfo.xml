@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="console-application">
+  <id>com.vitexsoftware.composer_debian</id>
+  
+  <name>composer-debian</name>
+  <summary>Update PHP dependencies system-wide </summary>
+  
+  <metadata_license>MIT</metadata_license>
+  <project_license>MIT-open-group</project_license>
+  
+  <description>
+    <p>
+      Prepare Autoloader for PHP Application installed from package Update PHP libraries in /usr/share/ or /usr/lib/ using composer
+    </p>
+  </description>
+  
+  <icon type="stock">composer-debian</icon>
+  
+  <categories>
+    <category>Utility</category>
+    <category>Adult</category>
+  </categories>
+  
+  <provides>
+    <binary>composer-debian</binary>
+  </provides>
+</component>
+

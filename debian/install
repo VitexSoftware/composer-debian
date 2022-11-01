@@ -4,3 +4,4 @@ composer-webuser	/usr/bin
 webusergroup		/usr/lib/composer-debian
 composer-autoload	/usr/bin
 
+debian/com.vitexsoftware.composer_debian.metainfo.xml /usr/share/metainfo/
