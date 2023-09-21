@@ -30,7 +30,7 @@ if [ -n "$1" ]; then
     echo '{}' > /usr/lib/${APP}/composer.lock
     chown ${WEB_USER}:${WEB_GROUP} "/usr/lib/${APP}" /var/lib/composer -R
     WEB_USER=$(echo $WEB_USER | awk -F: '{print $1}')
-    su - ${WEB_USER} -s /bin/bash -c "composer-autoload ${COMPJSON}"
+    su ${WEB_USER} -s /bin/bash -c "composer-autoload ${COMPJSON}"
     chown root "/usr/lib/${APP}" -R
 else
   echo "please call me with app name (it's directory in /usr/lib) "
