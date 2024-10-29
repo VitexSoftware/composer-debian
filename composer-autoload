@@ -20,7 +20,7 @@ if [ -n "$1" ]; then
 
   echo ProjectDir: "$PROJECT_DIR" VendorDir: "$VENDOR_DIR"
 
-  if [ -n "$DEBCONF_DEBUG" ]; then
+  if [ -n "$DEBCONF_DEBUG" ] && [ "$DEBCONF_DEBUG" -ne 0 ]; then
     composer update --verbose --no-progress --no-interaction --no-scripts -d "${PROJECT_DIR}"
   else
     if composer -q -n -o -a --no-dev update --no-interaction --no-progress --no-scripts -d "${PROJECT_DIR}"; then

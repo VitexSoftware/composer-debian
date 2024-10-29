@@ -1,8 +1,15 @@
-composer-debian (1.5.1) UNRELEASED; urgency=medium
+composer-debian (1.5.2) UNRELEASED; urgency=medium
 
+  * debug condition fix
+
+ --  <vitezslav.dvorak@spojenet.cz>  Tue, 29 Oct 2024 19:55:33 +0100
+
+composer-debian (1.5.1) unstable; urgency=medium
+
+  [ vitezslav.dvorak@spojenet.cz ]
   *  no enable verbose mode
 
- --  <vitezslav.dvorak@spojenet.cz>  Tue, 29 Oct 2024 19:14:58 +0100
+ --  <vitezslav.dvorak@spojenet.cz>  Tue, 29 Oct 2024 19:55:10 +0100
 
 composer-debian (1.5) unstable; urgency=medium
 
