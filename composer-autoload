@@ -2,30 +2,34 @@
 set -e
 #set -x
 
-if [ ${USER} = "root" ]; then
+if [ "${USER}" = "root" ]; then
    echo "You can't be root to do this." 1>&2
    exit 100
 fi
 
 if [ -n "$1" ]; then
-    COMPJSON=$1
-    export COMPOSER_ALLOW_SUPERUSER=1
-    export COMPOSER_HOME="/var/lib/composer/"
-    export COMPOSER_NO_INTERACTION=1
+  COMPJSON=$1
+  export COMPOSER_ALLOW_SUPERUSER=1
+  export COMPOSER_HOME="/var/lib/composer/"
+  export COMPOSER_NO_INTERACTION=1
 
-    PROJECT_DIR=$(dirname ${COMPJSON})
-    APP=$(basename ${PROJECT_DIR})
+  PROJECT_DIR=$(dirname "${COMPJSON}")
+  APP=$(basename "${PROJECT_DIR}")
 
-    VENDOR_DIR="/var/lib/composer/$APP"
+  VENDOR_DIR="/var/lib/composer/$APP"
 
-    echo ProjectDir: $PROJECT_DIR VendorDir: $VENDOR_DIR
+  echo ProjectDir: "$PROJECT_DIR" VendorDir: "$VENDOR_DIR"
 
-    if composer -q -n -o -a --no-dev update --no-interaction --no-progress --no-scripts -d ${PROJECT_DIR}; then
-      ls $VENDOR_DIR/autoload.php
+  if [ -n "$DEBCONF_DEBUG" ]; then
+    composer update --verbose --no-progress --no-interaction --no-scripts -d "${PROJECT_DIR}"
+  else
+    if composer -q -n -o -a --no-dev update --no-interaction --no-progress --no-scripts -d "${PROJECT_DIR}"; then
+      ls "$VENDOR_DIR"/autoload.php
     else
-      composer update --verbose --no-progress --no-interaction --no-scripts -d ${PROJECT_DIR}
-      ls $VENDOR_DIR/autoload.php
+      composer update --verbose --no-progress --no-interaction --no-scripts -d "${PROJECT_DIR}"
+      ls "$VENDOR_DIR"/autoload.php
     fi
+  fi
 else
   echo "please call me with path to composer.json "
 fi

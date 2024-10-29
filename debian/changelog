@@ -1,4 +1,10 @@
-composer-debian (1.5) UNRELEASED; urgency=medium
+composer-debian (1.5.1) UNRELEASED; urgency=medium
+
+  *  no enable verbose mode
+
+ --  <vitezslav.dvorak@spojenet.cz>  Tue, 29 Oct 2024 19:14:58 +0100
+
+composer-debian (1.5) unstable; urgency=medium
 
   [ Vítězslav Dvořák ]
   * new release
@@ -12,4 +18,4 @@ composer-debian (1.5) UNRELEASED; urgency=medium
   [ vitex ]
   * AppStream meta info added
 
- -- vitex <info@vitexsoftware.cz>  Tue, 01 Nov 2022 14:08:17 +0100
+ --  <vitezslav.dvorak@spojenet.cz>  Tue, 29 Oct 2024 19:13:36 +0100
