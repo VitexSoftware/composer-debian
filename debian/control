@@ -11,6 +11,7 @@ Package: composer-debian
 Depends: ${misc:Depends},composer,sudo, jq, moreutils, php-yaml
 Replaces: composer-global-update
 Architecture: all
+Multi-Arch: foreign
 Section: php
 Priority: optional
 Description: PHP Dependency Updater for debian Apps

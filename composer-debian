@@ -13,7 +13,7 @@ if [ -n "$1" ]; then
     COMPJSON=/usr/lib/${APP}/composer.json
     VENDOR_DIR="/var/lib/composer/$APP"
 
-    jq '.config."vendor-dir" = "'${VENDOR_DIR}'"' $COMPJSON | sponge $COMPJSON
+    jq '.config."vendor-dir" = "'"${VENDOR_DIR}"'"' "$COMPJSON" | sponge "$COMPJSON"
 
 # TODO: cat /usr/lib/system.spoje.net/composer.json | grep url | awk -F '"' '{print $4}'
 # ...
@@ -27,10 +27,10 @@ if [ -n "$1" ]; then
 #  }
 #],
 
-    echo '{}' > /usr/lib/${APP}/composer.lock
-    chown ${WEB_USER}:${WEB_GROUP} "/usr/lib/${APP}" /var/lib/composer -R
-    WEB_USER=$(echo $WEB_USER | awk -F: '{print $1}')
-    su ${WEB_USER} -s /bin/bash -c "composer-autoload ${COMPJSON}"
+    echo '{}' > /usr/lib/"${APP}"/composer.lock
+    chown "${WEB_USER}":"${WEB_GROUP}" "/usr/lib/${APP}" /var/lib/composer -R
+    WEB_USER=$(echo "$WEB_USER" | awk -F: '{print $1}')
+    su "${WEB_USER}" -s /bin/bash -c "composer-autoload ${COMPJSON}"
     chown root "/usr/lib/${APP}" -R
 else
   echo "please call me with app name (it's directory in /usr/lib) "

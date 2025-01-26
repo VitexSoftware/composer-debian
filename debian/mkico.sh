@@ -12,4 +12,4 @@ do
 done
 mkdir -p $DIR/scalable/apps
 cp $SRC $DIR/scalable/apps/$PACKAGE.svg 
-echo All done
+echo "All done"
