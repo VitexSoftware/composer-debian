@@ -6,7 +6,7 @@ set -e
 if [ -n "$1" ]; then
     APP=$1
 
-    if [ -z $WEB_USER ]; then
+    if [ -z "$WEB_USER" ]; then
 	. /usr/lib/composer-debian/webusergroup
     fi
 
