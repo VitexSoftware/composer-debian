@@ -1,5 +1,5 @@
 Source: composer-debian
-Build-Depends: debhelper (>= 11),curl,awk,sed,po-debconf
+Build-Depends: debhelper (>= 11),curl,awk,sed,po-debconf,inkscape
 Standards-Version: 4.3.0
 Maintainer: Vítězslav Dvořák <info@vitexsoftware.cz>
 Uploaders: Vitex <vitex@hippy.cz>
