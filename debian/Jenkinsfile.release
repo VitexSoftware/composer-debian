@@ -4,10 +4,7 @@ String[] distributions = ['debian:bookworm', 'debian:trixie', 'debian:forky', 'u
 
 String vendor = 'vitexsoftware'
 String imagePrefix = 'multiflexi-'
-String distribution = ''
 //String distroFamily = ''
-String distroCodename = ''
-String ver = ''
 
 properties([
     copyArtifactPermission('*')
@@ -23,31 +20,31 @@ node() {
 def branches = [:]
 distributions.each { distro ->
     branches[distro] = {
-        def distribution = distro
-        println  "Dist:" + distribution
+        def distroName = distro
+        println  "Dist:" + distroName
 
-        def dist = distribution.split(':')
-        def distroCodename = dist[1]
+        def dist = distroName.split(':')
+        def distroCode = dist[1]
         def buildImage = ''
         def artifacts = []
-        def ver = ''
+        def buildVer = ''
 
         node {
             ansiColor('xterm') {
-                stage('Checkout ' + distribution) {
+                stage('Checkout ' + distroName) {
                     checkout scm
-                    def imageName = vendor + '/' + imagePrefix + distroCodename + ':latest'
+                    def imageName = vendor + '/' + imagePrefix + distroCode + ':latest'
                     buildImage = docker.image(imageName)
                     sh 'git checkout debian/changelog'
                     def version = sh (
                         script: 'dpkg-parsechangelog --show-field Version',
                         returnStdout: true
                     ).trim()
-                    ver = version + '.' + env.BUILD_NUMBER  + '~' + distroCodename
+                    buildVer = version + '.' + env.BUILD_NUMBER  + '~' + distroCode
                 }
-                stage('Build ' + distribution) {
+                stage('Build ' + distroName) {
                     buildImage.inside {
-                        sh 'dch -b -v ' + ver  + ' "' + env.BUILD_TAG  + '"'
+                        sh 'dch -b -v ' + buildVer  + ' "' + env.BUILD_TAG  + '"'
                         sh 'sudo apt-get update --allow-releaseinfo-change'
                         sh 'sudo chown jenkins:jenkins ..'
                         sh 'debuild-pbuilder  -i -us -uc -b'
@@ -59,7 +56,7 @@ distributions.each { distro ->
                     }
                 }
 
-                stage('Test ' + distribution) {
+                stage('Test ' + distroName) {
                     buildImage.inside {
                         def debconf_debug = 0 //Set to "5" or "developer" to debug debconf
                         sh 'cd $WORKSPACE/dist/debian/ ; dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz; cd $WORKSPACE'
@@ -74,7 +71,7 @@ distributions.each { distro ->
                         }
                     }
                 }
-                stage('Archive artifacts ' + distribution ) {
+                stage('Archive artifacts ' + distroName ) {
                     // Only run if previous stages (Build and Test) succeeded
                     buildImage.inside {
                         // Archive all produced artifacts listed in debian/files
