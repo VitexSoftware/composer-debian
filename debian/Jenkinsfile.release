@@ -74,13 +74,27 @@ distributions.each {
                     }
                 }
             }
-            stage('Copy artifacts ' + distribution ) {
+            stage('Archive artifacts ' + distribution ) {
+                // Only run if previous stages (Build and Test) succeeded
                 buildImage.inside {
+                    // Archive all produced artifacts listed in debian/files
                     artifacts.each { deb_file ->
-                        println "Copying artifact: " + deb_file
+                        println "Archiving artifact: " + deb_file
                         archiveArtifacts artifacts: 'dist/debian/' + deb_file
-                        sh 'cp $WORKSPACE/dist/debian/' + deb_file + ' $WORKSPACE'
                     }
+                    // Cleanup: remove any produced files named in debian/files
+                    // Try both the dist location and any potential original locations referenced by debian/files
+                    sh """
+                        set -e
+                        if [ -f debian/files ]; then
+                          while read -r f _; do
+                            [ -n "$f" ] || continue
+                            rm -f "dist/debian/$f" || true
+                            rm -f "../$f" || true
+                            rm -f "$WORKSPACE/$f" || true
+                          done < debian/files
+                        fi
+                    """
                 }
             }
         }
