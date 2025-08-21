@@ -8,7 +8,7 @@ Section: php
 Homepage: https://github.com/Vitexus/composer-debian
 
 Package: composer-debian
-Depends: ${misc:Depends},composer,sudo, jq, moreutils, php-yaml
+Depends: ${misc:Depends},composer,sudo, jq, moreutils, php-yaml, git
 Replaces: composer-global-update
 Architecture: all
 Multi-Arch: foreign
