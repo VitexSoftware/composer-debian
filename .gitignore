@@ -8,3 +8,4 @@ debian/composer-debian.substvars
 debian/composer-debian/
 debian/debhelper-build-stamp
 debian/files
+debian/composer-debian.debhelper.log
